@@ -15,6 +15,8 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/unknown/spring-boot-configuration-processor-unknown.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/unknown/spring-boot-configuration-processor-unknown.jar" />
         </processorPath>
         <module name="api-gateway" />
       </profile>
@@ -36,9 +38,19 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
         <module name="ChatService" />
         <module name="ArtCollab (1) (com.drawnet.artcollab)" />
+      </profile>
+      <profile name="Annotation profile for CollaborativeProjectsService" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="CollaborativeProjectsService" />
       </profile>
     </annotationProcessing>
   </component>
@@ -46,6 +58,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ArtCollab (1) (com.drawnet.artcollab)" options="-parameters" />
       <module name="ChatService" options="-parameters" />
+      <module name="CollaborativeProjectsService" options="-parameters" />
       <module name="api-gateway" options="-parameters" />
       <module name="discovery-server" options="-parameters" />
     </option>

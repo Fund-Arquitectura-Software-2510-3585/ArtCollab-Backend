@@ -79,6 +79,7 @@
 
         <module>auth-service</module>
         <module>chat-service</module>
+        <module>project-service</module>
         <module>api-gateway</module>
         <module>discovery-server</module>
 
