@@ -42,7 +42,7 @@ public class ChatController {
     // POST /api/v1/chats/{chatId}/mensajes
     @PostMapping("/{chatId}/mensajes")
     public ResponseEntity<Void> enviarMensaje(@PathVariable Long chatId, @RequestBody EnviarMensajeResource resource) {
-        var command = EnviarMensajeCommandFromResourceAssembler.toCommandFromResource(resource);
+        var command = EnviarMensajeCommandFromResourceAssembler.toCommandFromResource(chatId, resource);
         chatCommandService.handle(command);
         return ResponseEntity.ok().build();
     }

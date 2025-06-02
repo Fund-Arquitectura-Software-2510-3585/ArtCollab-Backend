@@ -4,7 +4,7 @@ import com.drawnet.artcollab.chatservice.domain.model.commands.EnviarMensajeComm
 import com.drawnet.artcollab.chatservice.interfaces.rest.resources.EnviarMensajeResource;
 
 public class EnviarMensajeCommandFromResourceAssembler {
-    public static EnviarMensajeCommand toCommandFromResource(EnviarMensajeResource resource) {
-        return new EnviarMensajeCommand(resource.chatId(), resource.remitenteId(), resource.texto());
+    public static EnviarMensajeCommand toCommandFromResource(Long chatId,EnviarMensajeResource resource) {
+        return new EnviarMensajeCommand(chatId, resource.remitenteId(), resource.texto());
     }
 }
