@@ -39,14 +39,11 @@ public class PortafolioQueryServiceImpl implements PortafolioQueryService {
         return ilustracionRepository.findIlustracionesPublicadasByIlustrador(query.ilustradorId());
     }
 
-
-
     @Override
     public List<Calificacion> handle(ObtenerCalificacionesDeIlustracionQuery query) {
         Optional<Ilustracion> ilustracionOpt = ilustracionRepository.findById(query.ilustracionId());
         return ilustracionOpt.map(Ilustracion::getCalificaciones).orElse(List.of());
     }
-
 
     @Override
     public IlustracionResumenResource handle(ObtenerResumenIlustracionQuery query) {

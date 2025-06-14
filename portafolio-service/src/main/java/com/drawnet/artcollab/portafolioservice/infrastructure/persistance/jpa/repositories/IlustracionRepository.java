@@ -19,7 +19,4 @@ public interface IlustracionRepository extends JpaRepository<Ilustracion, Long> 
     @Query("SELECT i FROM Ilustracion i WHERE i.publicada = true AND i.ilustradorId = :ilustradorId")
     List<Ilustracion> findIlustracionesPublicadasByIlustrador(@Param("ilustradorId") Long ilustradorId);
 
-    @Query("SELECT i FROM Ilustracion i LEFT JOIN FETCH i.calificaciones WHERE i.portafolios IS NOT EMPTY AND i.ilustradorId = :ilustradorId")
-    List<Ilustracion> findIlustracionesPublicadasConCalificaciones(@Param("ilustradorId") Long ilustradorId);
-
 }
