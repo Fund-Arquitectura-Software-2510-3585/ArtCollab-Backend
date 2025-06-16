@@ -41,6 +41,7 @@ public class Calificacion {
         this.puntuacion = puntuacion;
         this.comentario = comentario;
         this.fecha = LocalDateTime.now();
+        this.ilustracion = ilustracion;
     }
 
     public int getPuntuacion() {

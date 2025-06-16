@@ -102,10 +102,19 @@ public class PortafolioCommandServiceImpl implements PortafolioCommandService {
         return Optional.of(ilustracionRepository.save(ilustracion));
     }
 
+    //@Override
+    //public void handle(CalificarIlustracionCommand command) {
+    //    ilustracionRepository.findById(command.ilustracionId()).ifPresent(ilustracion -> {
+    //        ilustracion.agregarCalificacion(command.usuarioId(), command.puntuacion(), command.comentario());
+    //        ilustracionRepository.save(ilustracion);
+    //    });
+    //}
+
     @Override
     public void handle(CalificarIlustracionCommand command) {
         ilustracionRepository.findById(command.ilustracionId()).ifPresent(ilustracion -> {
             ilustracion.agregarCalificacion(command.usuarioId(), command.puntuacion(), command.comentario());
+            System.out.println("Calificación agregada: " + command.puntuacion() + " - " + command.comentario());
             ilustracionRepository.save(ilustracion);
         });
     }
