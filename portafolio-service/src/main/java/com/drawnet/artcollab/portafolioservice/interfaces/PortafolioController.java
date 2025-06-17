@@ -4,10 +4,8 @@ import com.drawnet.artcollab.portafolioservice.application.internal.commandservi
 import com.drawnet.artcollab.portafolioservice.application.internal.queryservices.PortafolioQueryServiceImpl;
 import com.drawnet.artcollab.portafolioservice.domain.model.aggregates.Portafolio;
 import com.drawnet.artcollab.portafolioservice.domain.model.commands.ActualizarPortafolioCommand;
-import com.drawnet.artcollab.portafolioservice.domain.model.commands.CrearPortafolioCommand;
 import com.drawnet.artcollab.portafolioservice.domain.model.queries.ObtenerPortafoliosPorIlustradorQuery;
-import com.drawnet.artcollab.portafolioservice.domain.services.PortafolioCommandService;
-import com.drawnet.artcollab.portafolioservice.domain.services.PortafolioQueryService;
+import com.drawnet.artcollab.portafolioservice.infrastructure.external.clients.IlustradorCliente;
 import com.drawnet.artcollab.portafolioservice.interfaces.rest.resources.AgregarIlustracionAPortafolioResource;
 import com.drawnet.artcollab.portafolioservice.interfaces.rest.resources.CrearPortafolioResource;
 import com.drawnet.artcollab.portafolioservice.interfaces.rest.transform.AgregarIlustracionAPortafolioCommandFromResourceAssembler;
@@ -22,18 +20,42 @@ import java.util.Optional;
 public class PortafolioController {
     private final PortafolioCommandServiceImpl commandService;
     private final PortafolioQueryServiceImpl queryService;
+    private final IlustradorCliente ilustradorCliente;
 
-    public PortafolioController(PortafolioCommandServiceImpl commandService, PortafolioQueryServiceImpl queryService) {
+    public PortafolioController(PortafolioCommandServiceImpl commandService, PortafolioQueryServiceImpl queryService, IlustradorCliente ilustradorCliente) {
         this.commandService = commandService;
         this.queryService = queryService;
+        this.ilustradorCliente = ilustradorCliente;
     }
+
+    //@PostMapping
+    //public ResponseEntity<?> crearPortafolio(@RequestBody CrearPortafolioResource resource) {
+    //    var command = CrearPortafolioCommandFromResourceAssembler.toCommandFromResource(resource);
+    //    var result = commandService.handle(command);
+    //    return result.map(id -> ResponseEntity.ok().body("Portafolio creado con ID: " + id))
+    //            .orElse(ResponseEntity.badRequest().build());
+    //}
 
     @PostMapping
     public ResponseEntity<?> crearPortafolio(@RequestBody CrearPortafolioResource resource) {
-        var command = CrearPortafolioCommandFromResourceAssembler.toCommandFromResource(resource);
-        var result = commandService.handle(command);
-        return result.map(id -> ResponseEntity.ok().body("Portafolio creado con ID: " + id))
-                .orElse(ResponseEntity.badRequest().build());
+        try {
+            // Verificar que el usuario existe
+            ResponseEntity<?> response = ilustradorCliente.verificarUsuario(resource.ilustradorId());
+            if (response.getStatusCode().is2xxSuccessful()) {
+                // Crear el portafolio
+                var command = CrearPortafolioCommandFromResourceAssembler.toCommandFromResource(resource);
+                var result = commandService.handle(command);
+
+                if (result.isPresent()) {
+                    Long portafolioId = result.get().getId();
+                    return ResponseEntity.ok().body("Portafolio creado con ID: " + portafolioId);
+                }
+                return ResponseEntity.badRequest().body("Error al crear el portafolio.");
+            }
+            return ResponseEntity.status(404).body("Usuario no encontrado.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error interno al procesar la solicitud.");
+        }
     }
 
     @DeleteMapping("/{portafolioId}")
