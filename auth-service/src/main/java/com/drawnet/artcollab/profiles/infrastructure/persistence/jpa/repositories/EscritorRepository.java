@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface EscritorRepository extends JpaRepository<Escritor, Long> {
-    Optional<Escritor> findByUser_Id(Long userId);
+
 
 }

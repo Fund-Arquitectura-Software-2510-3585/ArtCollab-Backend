@@ -8,7 +8,11 @@ public class EscritorResourceFromEntityAssembler {
     public static EscritorResource toResourceFromEntity(Escritor entity) {
         return new EscritorResource(
                 entity.getId(),
-                entity.getUserId()
+                entity.getFullName(),
+                entity.getBiografia(),
+                entity.getFoto(),
+                entity.getRedes(),
+                entity.getSuscripcion()
         );
     }
 }

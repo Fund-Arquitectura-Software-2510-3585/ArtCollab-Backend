@@ -2,6 +2,9 @@ package com.drawnet.artcollab.profiles.domain.model.aggregates;
 
 
 import com.drawnet.artcollab.iam.domain.model.aggregates.User;
+import com.drawnet.artcollab.profiles.domain.model.commands.CreateEscritorCommand;
+import com.drawnet.artcollab.profiles.domain.model.commands.CreateIlustradorCommand;
+import com.drawnet.artcollab.profiles.domain.model.valueobjects.PersonName;
 import com.drawnet.artcollab.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,20 +13,50 @@ import lombok.Getter;
 @Getter
 public class Ilustrador extends AuditableAbstractAggregateRoot<Ilustrador> {
 
-    @Id
-    @JoinColumn(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
-    private User user;
+    @Embedded
+    private PersonName nombre;
 
+    private String biografia;
 
-    public Ilustrador(){}
+    @Column(name = "foto_perfil")
+    private String foto;
 
-    public User getUserId(){
-        return user;
+    @Column(name = "redes_sociales")
+    private String redes;
+
+    private Long suscripcion;
+
+    public Ilustrador() {}
+
+    public Ilustrador(CreateIlustradorCommand command) {
+        this.nombre = new PersonName(command.firstName(), command.lastName());
+        this.biografia = command.biografia();
+        this.foto = command.foto();
+        this.redes = command.redes();
+        this.suscripcion = command.suscripcion();
+        this.userId = command.userId();
     }
 
+
+    public String getFullName() {
+        return nombre.getFullName();
+    }
+
+    public String getBiografia() {
+        return biografia;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public String getRedes() {
+        return redes;
+    }
+
+    public Long getSuscripcion() {
+        return suscripcion;
+    }
 }

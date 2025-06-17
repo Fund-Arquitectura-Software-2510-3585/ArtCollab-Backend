@@ -31,33 +31,14 @@ public class User extends AuditableAbstractAggregateRoot<User> {
     @JoinColumn(name = "id_rol")
     private Role role;
 
-    private String nombre;
-
-    private String apellido;
-    private String biografia;
-
-    @Column(name = "foto_perfil")
-    private String foto;
-
-    @Column(name = "redes_sociales")
-    private String redes;
-
-    private Long suscripcion;
-
 
     public User(){}
 
-    public User(String username, String contrasenia, Role role, String nombre, String apellido, String biografia, String foto, String redes, Long suscripcion) {
+    public User(String username, String contrasenia, Role role) {
         this();
         this.username = username;
         this.contrasenia = contrasenia;
         this.role = role;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.biografia = biografia;
-        this.foto = foto;
-        this.redes = redes;
-        this.suscripcion = suscripcion;
     }
 
     public Role getRole() {
@@ -70,8 +51,6 @@ public class User extends AuditableAbstractAggregateRoot<User> {
     public Long getId() {
         return id;
     }
-
-    public String getNombre() {return nombre;}
 
     public String getPassword() {
         return contrasenia;

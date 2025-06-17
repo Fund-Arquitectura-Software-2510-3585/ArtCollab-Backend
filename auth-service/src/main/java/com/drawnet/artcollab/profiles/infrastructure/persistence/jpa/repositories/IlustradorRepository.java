@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface IlustradorRepository extends JpaRepository<Ilustrador, Long> {
-    Optional<Ilustrador> findByUser_Id(Long userId);
+
 }

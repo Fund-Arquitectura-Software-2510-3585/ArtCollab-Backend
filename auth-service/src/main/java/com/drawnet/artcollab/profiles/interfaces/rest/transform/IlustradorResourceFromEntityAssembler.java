@@ -8,7 +8,11 @@ public class IlustradorResourceFromEntityAssembler {
     public static IlustradorResource toResourceFromEntity(Ilustrador entity) {
         return new IlustradorResource(
                 entity.getId(),
-                entity.getUserId()
+                entity.getFullName(),
+                entity.getBiografia(),
+                entity.getFoto(),
+                entity.getRedes(),
+                entity.getSuscripcion()
         );
     }
 }
