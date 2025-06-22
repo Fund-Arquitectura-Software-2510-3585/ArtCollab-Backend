@@ -42,14 +42,16 @@ public class SuscripcionCommandServiceImpl implements SuscripcionCommandService 
 
     @Override
     public Optional<Suscripcion> handle(CambiarTipoPlanSuscripcionCommand command) {
-        Optional<Suscripcion> suscripcionOptional = suscripcionRepository.findByUsuarioId(command.usuarioId());
-        if (suscripcionOptional.isPresent()) {
-            Suscripcion suscripcion = suscripcionOptional.get();
-            suscripcion.cambiarTipoPlan(command);
-            suscripcionRepository.save(suscripcion);
-            return Optional.of(suscripcion);
+        Optional<Suscripcion> suscripcionOpt = suscripcionRepository.findByUsuarioId(command.usuarioId());
+        if (suscripcionOpt.isEmpty()) return Optional.empty();
+
+        Suscripcion suscripcion = suscripcionOpt.get();
+        if (suscripcion.getPlan().equals(command.tipo())) {
+            throw new IllegalArgumentException("El usuario ya tiene el plan seleccionado.");
         }
-        return Optional.empty();
+        suscripcion.cambiarTipoPlan(command);
+        suscripcionRepository.save(suscripcion);
+        return Optional.of(suscripcion);
     }
 
     @Override

@@ -32,4 +32,3 @@ public class DonacionQueryServiceImpl implements DonacionQueryService {
         return donacionRepository.findByReceptorId(receptorId);
     }
 }
-

@@ -8,7 +8,6 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 
 @Entity
-@Getter
 @Table(name = "donaciones")
 public class Donacion extends AuditableAbstractAggregateRoot<Donacion> {
 
@@ -32,23 +31,11 @@ public class Donacion extends AuditableAbstractAggregateRoot<Donacion> {
         return donanteId;
     }
 
-    public void setDonanteId(Long donanteId) {
-        this.donanteId = donanteId;
-    }
-
     public Long getReceptorId() {
         return receptorId;
     }
 
-    public void setReceptorId(Long receptorId) {
-        this.receptorId = receptorId;
-    }
-
     public Double getMonto() {
         return monto;
-    }
-
-    public void setMonto(Double monto) {
-        this.monto = monto;
     }
 }

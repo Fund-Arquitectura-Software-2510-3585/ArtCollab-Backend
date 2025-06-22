@@ -59,9 +59,8 @@ public class SuscripcionController {
 
     @PutMapping("/usuario/{usuarioId}")
     public ResponseEntity<SuscripcionResource> actualizarSuscripcion(
-            @PathVariable Long usuarioId,
-            @RequestBody ActualizarSuscripcionResource resource) {
-        var command = ActualizarSuscripcionCommandFromResourceAssembler.toCommandFromResource(usuarioId, resource);
+            @PathVariable Long usuarioId) {
+        var command = ActualizarSuscripcionCommandFromResourceAssembler.toCommandFromResource(usuarioId);
         Optional<Suscripcion> suscripcion = suscripcionCommandService.handle(command);
         return suscripcion.map(source -> new ResponseEntity<>(SuscripcionResourceFromEntityAssembler.toResourceFromEntity(source), HttpStatus.OK))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
@@ -70,13 +69,13 @@ public class SuscripcionController {
     @PutMapping("/cambiar-plan/{usuarioId}")
     public ResponseEntity<SuscripcionResource> cambiarTipoPlanSuscripcion(
             @PathVariable Long usuarioId,
-            @RequestParam Plan tipo) {
-        var command = new CambiarTipoPlanSuscripcionCommand(usuarioId, tipo);
+            @RequestBody ActualizarSuscripcionResource resource) {
+        var command = new CambiarTipoPlanSuscripcionCommand(usuarioId, resource.tipo());
         Optional<Suscripcion> suscripcion = suscripcionCommandService.handle(command);
         return suscripcion.map(source -> new ResponseEntity<>(SuscripcionResourceFromEntityAssembler.toResourceFromEntity(source), HttpStatus.OK))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
-    
+
     @DeleteMapping("/usuario/{usuarioId}")
     public ResponseEntity<Object> eliminarSuscripcion(@PathVariable Long usuarioId) {
         Optional<Suscripcion> suscripcion = suscripcionCommandService.handle(new EliminarSuscripcionCommand(usuarioId));

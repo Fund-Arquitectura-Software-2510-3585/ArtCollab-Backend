@@ -12,7 +12,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 @Entity
-@Getter
 @Table(name = "suscripciones")
 public class Suscripcion extends AuditableAbstractAggregateRoot<Suscripcion> {
 
@@ -28,7 +27,7 @@ public class Suscripcion extends AuditableAbstractAggregateRoot<Suscripcion> {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_suscripcion", nullable = false)
-    private Plan tipo;
+    private Plan plan;
 
     public Suscripcion() {}
 
@@ -41,7 +40,7 @@ public class Suscripcion extends AuditableAbstractAggregateRoot<Suscripcion> {
             this.fechaInicio = null;
             this.fechaFin = null;
         }
-        this.tipo = plan;
+        this.plan = plan;
     }
 
     private LocalDate obtenerFechaActual() {
@@ -57,16 +56,16 @@ public class Suscripcion extends AuditableAbstractAggregateRoot<Suscripcion> {
         this.fechaFin = this.fechaFin.plusMonths(3);
     }
 
-    public Plan getTipo() {
-        return tipo;
+    public Plan getPlan() {
+        return plan;
     }
 
     public void cambiarTipoPlan(CambiarTipoPlanSuscripcionCommand command) {
-        this.tipo = command.tipo();
-        if (this.tipo == Plan.PREMIUM) {
+        this.plan = command.tipo();
+        if (this.plan == Plan.PREMIUM) {
             this.fechaInicio = obtenerFechaActual();
             this.fechaFin = obtenerFechaFin();
-        } else if (this.tipo == Plan.FREEMIUM) {
+        } else if (this.plan == Plan.FREEMIUM) {
             this.fechaInicio = null;
             this.fechaFin = null;
         }
@@ -76,27 +75,11 @@ public class Suscripcion extends AuditableAbstractAggregateRoot<Suscripcion> {
         return usuarioId;
     }
 
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
-    }
-
     public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(LocalDate fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
-
     public LocalDate getFechaFin() {
         return fechaFin;
-    }
-
-    public void setFechaFin(LocalDate fechaFin) {
-        this.fechaFin = fechaFin;
-    }
-
-    public void setTipo(Plan tipo) {
-        this.tipo = tipo;
     }
 }

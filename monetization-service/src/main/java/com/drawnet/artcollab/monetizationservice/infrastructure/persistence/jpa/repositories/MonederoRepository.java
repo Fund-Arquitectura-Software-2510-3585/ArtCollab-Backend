@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface MonederoRepository extends JpaRepository<Monedero, Long> {
 
     Optional<Monedero> findByUsuarioId(Long usuarioId);
+    boolean existsByUsuarioId(Long usuarioId);
 }

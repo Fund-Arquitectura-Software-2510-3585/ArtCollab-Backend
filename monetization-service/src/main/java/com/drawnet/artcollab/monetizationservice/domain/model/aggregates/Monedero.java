@@ -1,26 +1,29 @@
 package com.drawnet.artcollab.monetizationservice.domain.model.aggregates;
 
+import com.drawnet.artcollab.monetizationservice.domain.model.commands.CrearMonederoCommand;
 import com.drawnet.artcollab.monetizationservice.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.Entity;
 
 @Entity
 public class Monedero extends AuditableAbstractAggregateRoot<Monedero> {
 
-    private Long id;
     private Long usuarioId;
     private Double saldo;
 
-    public Monedero(Long id, Long usuarioId, Double saldo) {
-        this.id = id;
-        this.usuarioId = usuarioId;
-        this.saldo = saldo;
+    public Monedero(CrearMonederoCommand command) {
+        this.usuarioId = command.usuarioId();
+        this.saldo = 0.00;
     }
 
     public Monedero() {
     }
 
-    public Long getId() {
-        return id;
+    public void comprarMonedas(Double monto) {
+        if (monto <= 0 ) {
+            throw new IllegalArgumentException("Inserte un saldo positivo");
+        }
+        double monedas = Math.floor(monto / 3);
+        this.saldo += monedas;
     }
 
     public Long getUsuarioId() {
@@ -38,17 +41,5 @@ public class Monedero extends AuditableAbstractAggregateRoot<Monedero> {
 
     public void sumarSaldo(Double monto) {
         this.saldo += monto;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
-    }
-
-    public void setSaldo(Double saldo) {
-        this.saldo = saldo;
     }
 }

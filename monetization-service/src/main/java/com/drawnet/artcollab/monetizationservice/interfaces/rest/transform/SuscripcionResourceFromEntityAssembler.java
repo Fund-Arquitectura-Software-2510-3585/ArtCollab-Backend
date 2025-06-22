@@ -10,7 +10,7 @@ public class SuscripcionResourceFromEntityAssembler {
                 suscripcion.getUsuarioId(),
                 suscripcion.getFechaInicio(),
                 suscripcion.getFechaFin(),
-                suscripcion.getTipo().toString()
+                suscripcion.getPlan().toString()
         );
     }
 }
