@@ -5,9 +5,9 @@ import com.drawnet.artcollab.portafolioservice.domain.model.commands.CrearPortaf
 import com.drawnet.artcollab.portafolioservice.interfaces.rest.resources.CrearPortafolioResource;
 
 public class CrearPortafolioCommandFromResourceAssembler {
-    public static CrearPortafolioCommand toCommandFromResource(CrearPortafolioResource resource) {
+    public static CrearPortafolioCommand toCommandFromResource(CrearPortafolioResource resource, Long ilustradorId) {
         return new CrearPortafolioCommand(
-                resource.ilustradorId(),
+                ilustradorId,
                 resource.titulo(),
                 resource.descripcion(),
                 resource.urlImagen()

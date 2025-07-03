@@ -8,12 +8,16 @@ import com.drawnet.artcollab.portafolioservice.domain.model.queries.ObtenerPorta
 import com.drawnet.artcollab.portafolioservice.infrastructure.external.clients.IlustradorCliente;
 import com.drawnet.artcollab.portafolioservice.interfaces.rest.resources.AgregarIlustracionAPortafolioResource;
 import com.drawnet.artcollab.portafolioservice.interfaces.rest.resources.CrearPortafolioResource;
+import com.drawnet.artcollab.portafolioservice.interfaces.rest.resources.UserResource;
 import com.drawnet.artcollab.portafolioservice.interfaces.rest.transform.AgregarIlustracionAPortafolioCommandFromResourceAssembler;
 import com.drawnet.artcollab.portafolioservice.interfaces.rest.transform.CrearPortafolioCommandFromResourceAssembler;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api/v1/portafolios")
@@ -21,6 +25,8 @@ public class PortafolioController {
     private final PortafolioCommandServiceImpl commandService;
     private final PortafolioQueryServiceImpl queryService;
     private final IlustradorCliente ilustradorCliente;
+    private static final Logger logger = LoggerFactory.getLogger(PortafolioController.class);
+
 
     public PortafolioController(PortafolioCommandServiceImpl commandService, PortafolioQueryServiceImpl queryService, IlustradorCliente ilustradorCliente) {
         this.commandService = commandService;
@@ -28,32 +34,30 @@ public class PortafolioController {
         this.ilustradorCliente = ilustradorCliente;
     }
 
-    //@PostMapping
-    //public ResponseEntity<?> crearPortafolio(@RequestBody CrearPortafolioResource resource) {
-    //    var command = CrearPortafolioCommandFromResourceAssembler.toCommandFromResource(resource);
-    //    var result = commandService.handle(command);
-    //    return result.map(id -> ResponseEntity.ok().body("Portafolio creado con ID: " + id))
-    //            .orElse(ResponseEntity.badRequest().build());
-    //}
-
-    @PostMapping
-    public ResponseEntity<?> crearPortafolio(@RequestBody CrearPortafolioResource resource) {
+    @PostMapping("/ilustrador/{ilustradorId}")
+    public ResponseEntity<?> crearPortafolio(
+            @PathVariable Long ilustradorId,
+            @RequestBody CrearPortafolioResource resource) {
         try {
-            // Verificar que el usuario existe
-            ResponseEntity<?> response = ilustradorCliente.verificarUsuario(resource.ilustradorId());
-            if (response.getStatusCode().is2xxSuccessful()) {
-                // Crear el portafolio
-                var command = CrearPortafolioCommandFromResourceAssembler.toCommandFromResource(resource);
-                var result = commandService.handle(command);
-
-                if (result.isPresent()) {
-                    Long portafolioId = result.get().getId();
-                    return ResponseEntity.ok().body("Portafolio creado con ID: " + portafolioId);
-                }
-                return ResponseEntity.badRequest().body("Error al crear el portafolio.");
+            UserResource user = ilustradorCliente.verificarUsuario(ilustradorId);
+            if (user == null) {
+                return ResponseEntity.status(404).body("Usuario no encontrado.");
             }
-            return ResponseEntity.status(404).body("Usuario no encontrado.");
+
+            if (!"ILUSTRADOR".equals(user.getRole())) {
+                return ResponseEntity.status(403).body("El usuario no tiene el rol de ILUSTRADOR.");
+            }
+
+            var command = CrearPortafolioCommandFromResourceAssembler.toCommandFromResource(resource, ilustradorId);
+            var result = commandService.handle(command);
+
+            if (result.isPresent()) {
+                Long portafolioId = result.get().getId();
+                return ResponseEntity.ok().body("Portafolio creado con ID: " + portafolioId);
+            }
+            return ResponseEntity.badRequest().body("Error al crear el portafolio.");
         } catch (Exception e) {
+            logger.error("Error interno al procesar la solicitud: ", e);
             return ResponseEntity.status(500).body("Error interno al procesar la solicitud.");
         }
     }
