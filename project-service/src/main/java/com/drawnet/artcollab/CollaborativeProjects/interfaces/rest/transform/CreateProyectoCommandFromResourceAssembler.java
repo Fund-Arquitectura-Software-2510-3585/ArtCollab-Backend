@@ -4,9 +4,9 @@ import com.drawnet.artcollab.CollaborativeProjects.domain.model.commands.CreateP
 import com.drawnet.artcollab.CollaborativeProjects.interfaces.rest.resources.CreateProyectoResource;
 
 public class CreateProyectoCommandFromResourceAssembler {
-    public static CreateProyectoCommand toCommandFromResource(CreateProyectoResource resource) {
+    public static CreateProyectoCommand toCommandFromResource(CreateProyectoResource resource, Long escritorId) {
         return new CreateProyectoCommand(
-                resource.escritorId(),
+                escritorId,
                 resource.titulo(),
                 resource.descripcion(),
                 resource.urlImagen(),
