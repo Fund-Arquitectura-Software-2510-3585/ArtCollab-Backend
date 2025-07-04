@@ -30,4 +30,19 @@ public class PostulacionCommandServiceImpl implements PostulacionCommandService 
         var createdPostulacion = postulacionCommandService.save(postulacion);
         return Optional.of(createdPostulacion);
     }
+
+    // src/main/java/com/drawnet/artcollab/CollaborativeProjects/application/internal/commandservices/PostulacionCommandServiceImpl.java
+    @Override
+    public Optional<Postulacion> actualizarEstado(Long id, String nuevoEstado) {
+        var postulacion = postulacionCommandService.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("La postulación con id " + id + " no existe"));
+
+        if (!"CONFIRMADO".equalsIgnoreCase(nuevoEstado) && !"RECHAZADO".equalsIgnoreCase(nuevoEstado)) {
+            throw new IllegalArgumentException("Estado inválido. Solo se permite CONFIRMADO o RECHAZADO.");
+        }
+
+        postulacion.setEstado(nuevoEstado.toUpperCase());
+        var updatedPostulacion = postulacionCommandService.save(postulacion);
+        return Optional.of(updatedPostulacion);
+    }
 }

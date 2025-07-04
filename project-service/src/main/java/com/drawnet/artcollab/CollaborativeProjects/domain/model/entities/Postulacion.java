@@ -60,4 +60,11 @@ public class Postulacion extends AuditableAbstractAggregateRoot<Postulacion> {
     public Date getFecha() {
         return fecha;
     }
+
+    public void setEstado(String estado) {
+        if (!"CONFIRMADO".equalsIgnoreCase(estado) && !"RECHAZADO".equalsIgnoreCase(estado) && !"EN ESPERA".equalsIgnoreCase(estado)) {
+            throw new IllegalArgumentException("Estado inválido. Solo se permite CONFIRMADO, RECHAZADO o EN ESPERA.");
+        }
+        this.estado = estado.toUpperCase();
+    }
 }

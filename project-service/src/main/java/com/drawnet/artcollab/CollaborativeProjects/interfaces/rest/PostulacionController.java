@@ -140,5 +140,24 @@ public class PostulacionController {
                 .collect(Collectors.toList()));
     }
 
+    // src/main/java/com/drawnet/artcollab/CollaborativeProjects/interfaces/rest/PostulacionController.java
+    @PatchMapping("/{id}/estado")
+    public ResponseEntity<?> actualizarEstadoPostulacion(
+            @PathVariable Long id,
+            @RequestParam String nuevoEstado) {
+        try {
+            var result = postulacionCommandService.actualizarEstado(id, nuevoEstado);
+
+            if (result.isPresent()) {
+                return ResponseEntity.ok("Estado actualizado a: " + nuevoEstado);
+            }
+            return ResponseEntity.badRequest().body("Error al actualizar el estado.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            logger.error("Error interno al procesar la solicitud: ", e);
+            return ResponseEntity.status(500).body("Error interno al procesar la solicitud.");
+        }
+    }
 
 }

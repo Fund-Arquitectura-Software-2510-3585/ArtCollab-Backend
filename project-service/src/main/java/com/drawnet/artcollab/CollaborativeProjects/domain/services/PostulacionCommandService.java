@@ -7,4 +7,7 @@ import java.util.Optional;
 public interface PostulacionCommandService {
 
     Optional<Postulacion> handle(CreatePostulacionCommand command);
+
+    Optional<Postulacion> actualizarEstado(Long id, String nuevoEstado); // Nuevo método
+
 }
