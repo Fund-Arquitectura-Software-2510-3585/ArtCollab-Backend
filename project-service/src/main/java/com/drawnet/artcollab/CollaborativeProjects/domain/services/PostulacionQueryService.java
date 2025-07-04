@@ -14,4 +14,5 @@ public interface PostulacionQueryService {
     List<Postulacion> getByIlustradorId(Long ilustradorId);
 
     List<Postulacion> getByProyectoId(Long proyectoId);
+
 }

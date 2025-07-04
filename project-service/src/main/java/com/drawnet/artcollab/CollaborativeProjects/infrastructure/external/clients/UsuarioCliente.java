@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(name = "auth-service", path = "/api/v1/users")
 
-public interface EscritorCliente {
+public interface UsuarioCliente {
     @GetMapping("/{id}")
     UserResource verificarUsuario(@PathVariable Long id);
 }

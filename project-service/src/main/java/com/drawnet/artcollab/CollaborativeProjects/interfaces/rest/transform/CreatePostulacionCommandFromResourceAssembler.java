@@ -4,11 +4,11 @@ import com.drawnet.artcollab.CollaborativeProjects.domain.model.commands.CreateP
 import com.drawnet.artcollab.CollaborativeProjects.interfaces.rest.resources.CreatePostulacionResource;
 
 public class CreatePostulacionCommandFromResourceAssembler {
-    public static CreatePostulacionCommand toCommandFromResource(CreatePostulacionResource resource) {
+    public static CreatePostulacionCommand toCommandFromResource(Long proyectoId, Long ilustradorId, CreatePostulacionResource resource) {
         return new CreatePostulacionCommand(
-                resource.proyectoId(),
-                resource.ilustradorId(),
-                resource.estado(),
+                proyectoId,
+                ilustradorId,
+                "EN ESPERA",
                 resource.fecha()
         );
     }

@@ -2,5 +2,5 @@ package com.drawnet.artcollab.CollaborativeProjects.interfaces.rest.resources;
 
 import java.util.Date;
 
-public record CreatePostulacionResource(Long proyectoId, Long ilustradorId, String estado, Date fecha) {
+public record CreatePostulacionResource(Date fecha) {
 }

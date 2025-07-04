@@ -5,7 +5,7 @@ import com.drawnet.artcollab.CollaborativeProjects.domain.model.aggregates.Proye
 import com.drawnet.artcollab.CollaborativeProjects.domain.model.queries.GetAllProyectosQuery;
 import com.drawnet.artcollab.CollaborativeProjects.domain.services.ProyectoCommandService;
 import com.drawnet.artcollab.CollaborativeProjects.domain.services.ProyectoQueryService;
-import com.drawnet.artcollab.CollaborativeProjects.infrastructure.external.clients.EscritorCliente;
+import com.drawnet.artcollab.CollaborativeProjects.infrastructure.external.clients.UsuarioCliente;
 import com.drawnet.artcollab.CollaborativeProjects.interfaces.rest.resources.CreateProyectoResource;
 import com.drawnet.artcollab.CollaborativeProjects.interfaces.rest.resources.ProyectoResource;
 import com.drawnet.artcollab.CollaborativeProjects.interfaces.rest.resources.UserResource;
@@ -21,11 +21,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
-import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -35,14 +33,14 @@ public class ProyectoController {
 
     private final ProyectoCommandService proyectoCommandService;
     private final ProyectoQueryService proyectoQueryService;
-    private final EscritorCliente escritorCliente;
+    private final UsuarioCliente usuarioCliente;
     private static final Logger logger = LoggerFactory.getLogger(ProyectoController.class);
 
 
-    public ProyectoController(ProyectoCommandService proyectoCommandService, ProyectoQueryService proyectoQueryService, EscritorCliente escritorCliente) {
+    public ProyectoController(ProyectoCommandService proyectoCommandService, ProyectoQueryService proyectoQueryService, UsuarioCliente usuarioCliente) {
         this.proyectoCommandService = proyectoCommandService;
         this.proyectoQueryService = proyectoQueryService;
-        this.escritorCliente = escritorCliente;
+        this.usuarioCliente = usuarioCliente;
     }
 
     @Operation(summary = "Crear un proyecto", description = "Crea un proyecto con los datos proporcionados en el cuerpo de la solicitud")
@@ -53,7 +51,7 @@ public class ProyectoController {
             @PathVariable Long escritorId,
             @RequestBody CreateProyectoResource resource) {
         try {
-            UserResource user = escritorCliente.verificarUsuario(escritorId);
+            UserResource user = usuarioCliente.verificarUsuario(escritorId);
             if (user == null) {
                 return ResponseEntity.status(404).body("Usuario no encontrado.");
             }
