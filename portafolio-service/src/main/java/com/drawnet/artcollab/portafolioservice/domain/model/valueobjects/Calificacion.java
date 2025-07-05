@@ -26,7 +26,7 @@ public class Calificacion {
     private LocalDateTime fecha;
 
     @ManyToOne
-    @JoinColumn(name = "ilustracion_id")
+    @JoinColumn(name = "id_ilustracion")
     private Ilustracion ilustracion;
 
     protected Calificacion() {
