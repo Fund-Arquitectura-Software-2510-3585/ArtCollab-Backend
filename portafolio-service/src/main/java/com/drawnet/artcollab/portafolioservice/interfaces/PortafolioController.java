@@ -76,9 +76,20 @@ public class PortafolioController {
         return portafolioOpt.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    //@PostMapping("/{portafolioId}/ilustraciones")
+    //public ResponseEntity<?> agregarIlustracion(@PathVariable Long portafolioId, @RequestBody AgregarIlustracionAPortafolioResource resource) {
+    //    var command = AgregarIlustracionAPortafolioCommandFromResourceAssembler.toCommandFromResource(resource, portafolioId);
+    //    var result = commandService.handle(command);
+    //    return result.map(ilustracion -> ResponseEntity.ok().body("Ilustración agregada con ID: " + ilustracion.getId()))
+    //            .orElse(ResponseEntity.badRequest().build());
+    //}
+
     @PostMapping("/{portafolioId}/ilustraciones")
-    public ResponseEntity<?> agregarIlustracion(@PathVariable Long portafolioId, @RequestBody AgregarIlustracionAPortafolioResource resource) {
-        var command = AgregarIlustracionAPortafolioCommandFromResourceAssembler.toCommandFromResource(resource, portafolioId);
+    public ResponseEntity<?> agregarIlustracion(
+            @PathVariable Long portafolioId,
+            @RequestParam Long ilustradorId,
+            @RequestBody AgregarIlustracionAPortafolioResource resource) {
+        var command = AgregarIlustracionAPortafolioCommandFromResourceAssembler.toCommandFromResource(resource, portafolioId, ilustradorId);
         var result = commandService.handle(command);
         return result.map(ilustracion -> ResponseEntity.ok().body("Ilustración agregada con ID: " + ilustracion.getId()))
                 .orElse(ResponseEntity.badRequest().build());

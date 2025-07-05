@@ -5,11 +5,11 @@ import com.drawnet.artcollab.portafolioservice.domain.model.commands.AgregarIlus
 import com.drawnet.artcollab.portafolioservice.interfaces.rest.resources.AgregarIlustracionAPortafolioResource;
 
 public class AgregarIlustracionAPortafolioCommandFromResourceAssembler {
-    public static AgregarIlustracionAPortafolioCommand toCommandFromResource(AgregarIlustracionAPortafolioResource resource, Long portafolioId) {
+    public static AgregarIlustracionAPortafolioCommand toCommandFromResource(AgregarIlustracionAPortafolioResource resource, Long portafolioId, Long ilustradorId) {
         return new AgregarIlustracionAPortafolioCommand(
                 portafolioId,
                 resource.ilustracionId(),
-                resource.ilustradorId(),
+                ilustradorId,
                 resource.titulo(),
                 resource.descripcion(),
                 resource.urlImagen()

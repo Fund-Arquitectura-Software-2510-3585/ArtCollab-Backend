@@ -48,7 +48,7 @@ public class PortafolioCommandServiceImpl implements PortafolioCommandService {
         Portafolio portafolio = portafolioOpt.get();
 
         Ilustracion ilustracion;
-        if (command.ilustracionId() == null) {
+        if (command.ilustracionId() == null || command.ilustracionId() == 0) {
             // Crear nueva ilustración
 
             //Long nuevoId = ilustracionRepository.findMaxIdByIlustradorId(command.ilustradorId()) + 1;
