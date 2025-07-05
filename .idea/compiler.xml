@@ -36,17 +36,17 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
-        <module name="ChatService" />
         <module name="ArtCollab (1) (com.drawnet.artcollab)" />
+        <module name="ChatService" />
       </profile>
-      <profile name="Annotation profile for monetization-service" enabled="true">
+      <profile name="Annotation profile for libro-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
-        <module name="monetization-service" />
+        <module name="libro-service" />
       </profile>
       <profile name="Annotation profile for ArtCollab" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -65,6 +65,15 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
         <module name="chat-service" />
+      </profile>
+      <profile name="Annotation profile for monetization-service" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="monetization-service" />
       </profile>
       <profile name="Annotation profile for portafolio-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -95,6 +104,7 @@
       <module name="api-gateway" options="-parameters" />
       <module name="chat-service" options="-parameters" />
       <module name="discovery-server" options="-parameters" />
+      <module name="libro-service" options="-parameters" />
       <module name="monetization-service" options="-parameters" />
       <module name="portafolio-service" options="-parameters" />
     </option>
