@@ -1,6 +1,8 @@
 package com.drawnet.artcollab.iam.interfaces.rest;
 
+import com.drawnet.artcollab.iam.domain.model.aggregates.User;
 import com.drawnet.artcollab.iam.domain.model.queries.GetAllUsersQuery;
+import com.drawnet.artcollab.iam.domain.model.queries.GetUserByIdAndRolQuery;
 import com.drawnet.artcollab.iam.domain.model.queries.GetUserByIdQuery;
 import com.drawnet.artcollab.iam.domain.services.UserQueryService;
 import com.drawnet.artcollab.iam.interfaces.rest.resources.UserResource;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/v1/users", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -41,4 +44,19 @@ public class UsersController {
         var userResource = UserResourceFromEntityAssembler.toResourceFromEntity(user.get());
         return ResponseEntity.ok(userResource);
     }
+
+    @GetMapping("/{id}/role/{role}")
+    public ResponseEntity<UserResource> getUserByIdAndRole(@PathVariable Long id, @PathVariable String role) {
+        //Optional<User> user = userQueryService.handle(new GetUserByIdAndRolQuery(id, role));
+        //return user.map(u -> new UserResource(u.getId(), u.getUsername(), u.getRole().getStringName()))
+        //        .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        var getUserByIdAndRolQuery = new GetUserByIdAndRolQuery(id, role);
+        var user = userQueryService.handle(getUserByIdAndRolQuery);
+        if (user.isEmpty()) return ResponseEntity.notFound().build();
+        var userResource = UserResourceFromEntityAssembler.toResourceFromEntity(user.get());
+        return ResponseEntity.ok(userResource);
+    }
+
+
+
 }
